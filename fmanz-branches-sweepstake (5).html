@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FMANZ Branch Challenge · World Cup 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --db:#434c63;--bb:#0078b8;--green:#00ab8f;
+  --orange:#f26921;--red:#e72e2f;--offwhite:#f1f3f5;
+  --text:#434c63;--muted:#7a8399;--border:#d8dce8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Roboto Condensed',sans-serif;background:#eef0f4;color:var(--text);min-height:100vh;}
+header{background:var(--db);position:relative;overflow:hidden;}
+header::after{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(90deg,transparent,transparent 80px,rgba(255,255,255,.03) 80px,rgba(255,255,255,.03) 160px);}
+.hi{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:24px 20px 18px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:3.5px;text-transform:uppercase;color:var(--orange);margin-bottom:4px;}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,8vw,64px);line-height:.88;color:#fff;letter-spacing:1px;}
+h1 span{color:var(--orange);}
+.hr{text-align:right;}
+.hl{font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,3vw,28px);color:var(--orange);line-height:1.1;}
+.hs{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:3px;}
+.lb-strip{background:var(--bb);}
+.lb-inner{max-width:1100px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none;}
+.lb-inner::-webkit-scrollbar{display:none;}
+.lb-p{display:flex;flex-direction:column;align-items:center;padding:10px 14px;flex:1;min-width:110px;border-right:1px solid rgba(255,255,255,.15);cursor:pointer;transition:background .15s;}
+.lb-p:last-child{border-right:none;}
+.lb-p:hover,.lb-p.top{background:rgba(0,0,0,.15);}
+.lb-rank{font-size:9px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,.45);text-transform:uppercase;}
+.lb-name{font-size:11px;font-weight:700;color:white;text-align:center;}
+.lb-pts{font-family:'Bebas Neue',sans-serif;font-size:28px;color:white;line-height:1;}
+.lb-t{font-size:9px;color:rgba(255,255,255,.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100px;text-align:center;}
+.lu{background:var(--db);color:rgba(255,255,255,.4);font-size:10px;font-weight:600;text-align:center;padding:5px 20px;}
+.tab-bar{background:white;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20;}
+.tab-inner{max-width:1100px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none;padding:0 16px;}
+.tab-inner::-webkit-scrollbar{display:none;}
+.tab{padding:11px 14px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);border-bottom:2.5px solid transparent;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.tab:hover{color:var(--db);}
+.tab.active{color:var(--db);border-bottom-color:var(--orange);}
+.ld{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--red);margin-left:5px;vertical-align:middle;animation:blink 1.2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+main{max-width:1100px;margin:0 auto;padding:20px 16px 80px;}
+/* BRANCHES */
+.bg{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;}
+.bc{background:white;border-radius:12px;border:1px solid var(--border);overflow:hidden;transition:box-shadow .15s;cursor:pointer;}
+.bc:hover{box-shadow:0 4px 16px rgba(67,76,99,.1);}
+.bc.leader{border-color:var(--orange);box-shadow:0 4px 20px rgba(242,105,33,.2);}
+.bc-h{padding:16px 18px 12px;display:flex;align-items:center;justify-content:space-between;}
+.bc-l{display:flex;align-items:center;gap:12px;}
+.bc-ic{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.bc-nm{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--db);letter-spacing:.5px;line-height:1;}
+.bc-rg{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);}
+.bc-pts{text-align:right;}
+.bc-pn{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--orange);line-height:1;}
+.bc-pl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);}
+.bc-div{height:1px;background:var(--offwhite);margin:0 18px;}
+.bc-teams{padding:12px 18px 16px;display:flex;flex-wrap:wrap;gap:5px;}
+.tc{font-size:11px;font-weight:700;padding:3px 9px;border-radius:12px;background:#eef0f4;color:var(--db);display:flex;align-items:center;gap:4px;}
+.tc.active{background:var(--bb);color:white;}
+.tc.elim{opacity:.3;text-decoration:line-through;}
+.tc.champ{background:var(--orange);color:white;}
+/* MODAL */
+.ov{display:none;position:fixed;inset:0;background:rgba(67,76,99,.6);z-index:50;align-items:center;justify-content:center;padding:20px;}
+.ov.open{display:flex;}
+.modal{background:white;border-radius:14px;width:100%;max-width:560px;box-shadow:0 24px 60px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto;}
+.mh{padding:18px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.mt{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--db);letter-spacing:1px;}
+.mc{width:30px;height:30px;border:none;background:var(--offwhite);border-radius:8px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);}
+.mb{padding:14px 20px 20px;}
+.tdr{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--offwhite);}
+.tdr:last-child{border-bottom:none;}
+.tdl{display:flex;align-items:center;gap:10px;}
+.tdf{font-size:22px;}
+.tdn{font-size:14px;font-weight:700;}
+.tdg{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);}
+.ss{padding:5px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:11px;font-weight:600;font-family:'Roboto Condensed',sans-serif;color:var(--text);background:white;cursor:pointer;}
+.sb{font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;text-align:center;letter-spacing:.5px;text-transform:uppercase;}
+.sb-gs{background:#e5f3fb;color:var(--bb);}
+.sb-r32{background:#fff3bf;color:#7c5a00;}
+.sb-r16{background:#ffe8cc;color:#c45600;}
+.sb-qf{background:#ffd6e7;color:#9c2044;}
+.sb-sf{background:#e5dbff;color:#5f3dc4;}
+.sb-3rd{background:#d3f9d8;color:#1a6633;}
+.sb-fin{background:#ffd43b;color:#7c5a00;}
+.sb-win{background:var(--orange);color:white;}
+.sb-out{background:#f1f3f5;color:#868e96;}
+/* RESULTS */
+.rs{margin-bottom:10px;}
+.rh{display:flex;align-items:center;justify-content:space-between;padding:10px 4px 6px;}
+.rt{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--db);letter-spacing:1px;}
+.rm{font-size:11px;font-weight:600;color:var(--muted);}
+.mr{background:white;border-radius:10px;border:1px solid var(--border);margin-bottom:6px;padding:10px 12px;display:grid;grid-template-columns:1fr auto 1fr auto;align-items:center;gap:8px;}
+.mr.live{border-color:#ffc9c9;}
+.mt2{display:flex;align-items:center;gap:6px;}
+.mt2.home{justify-content:flex-end;flex-direction:row-reverse;}
+.mfl{font-size:20px;}
+.mn{font-size:13px;font-weight:700;}
+.mo{font-size:9px;font-weight:700;color:var(--green);}
+.msc{display:flex;align-items:center;gap:3px;}
+.mct{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.msn{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--db);width:30px;text-align:center;line-height:1;}
+.msp{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--muted);}
+.mb2{width:26px;height:26px;border:none;border-radius:5px;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .1s;}
+.mb2:active{transform:scale(.88);}
+.mb2.inc{background:var(--db);color:white;}
+.mb2.inc:hover{background:var(--bb);}
+.mb2.dec{background:var(--offwhite);color:var(--muted);}
+.mme{display:flex;flex-direction:column;gap:3px;align-items:flex-end;}
+.mst{font-size:9px;font-weight:800;padding:2px 7px;border-radius:10px;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;white-space:nowrap;}
+.st-u{background:#e5f3fb;color:var(--bb);}
+.st-l{background:#ffe3e3;color:var(--red);animation:blink 1.2s infinite;}
+.st-f{background:#d3f9d8;color:#1a6633;}
+.mdt{font-size:10px;color:var(--muted);}
+.add-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px;background:white;border:2px dashed var(--border);border-radius:10px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .15s;margin-top:8px;font-family:'Roboto Condensed',sans-serif;}
+.add-btn:hover{border-color:var(--bb);color:var(--bb);background:#e5f3fb;}
+/* ADD MODAL */
+.amod{background:white;border-radius:14px;padding:22px;width:100%;max-width:440px;box-shadow:0 24px 60px rgba(0,0,0,.2);}
+.amod h2{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--db);margin-bottom:14px;letter-spacing:1px;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.ff{display:flex;flex-direction:column;gap:4px;}
+.fl2{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);}
+.fi,.fsl{padding:8px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:14px;font-family:'Roboto Condensed',sans-serif;color:var(--text);}
+.fi:focus,.fsl:focus{outline:none;border-color:var(--bb);}
+.ma{display:flex;gap:8px;margin-top:16px;}
+.bp{flex:1;padding:10px;background:var(--bb);color:white;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Roboto Condensed',sans-serif;}
+.bp:hover{background:var(--green);}
+.bs{padding:10px 16px;background:var(--offwhite);color:var(--text);border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Roboto Condensed',sans-serif;}
+/* RULES */
+.rw{max-width:720px;margin:0 auto;padding:8px 0 40px;}
+.rc{background:white;border-radius:12px;border:1px solid var(--border);padding:22px 24px;margin-bottom:12px;}
+.rct{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--db);letter-spacing:1px;margin-bottom:14px;}
+.step{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;}
+.step:last-child{margin-bottom:0;}
+.sn{background:var(--orange);color:white;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.pr{display:flex;align-items:center;justify-content:space-between;background:var(--offwhite);border-radius:8px;padding:10px 14px;}
+.pr.gold{background:#fff5ef;border:1.5px solid var(--orange);}
+.pl{font-size:13px;font-weight:700;}
+.pv{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--db);}
+/* CONFETTI */
+.cp{position:fixed;top:-10px;animation:fall linear forwards;z-index:999;border-radius:2px;pointer-events:none;}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+@media(max-width:600px){.bg{grid-template-columns:1fr;}.mr{grid-template-columns:1fr auto 1fr;}.mme{display:none;}.pg{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hi">
+    <div>
+      <div class="eyebrow">FMANZ Branch Challenge &middot; World Cup 2026</div>
+      <h1>BRANCH<br><span>CHALLENGE</span></h1>
+    </div>
+    <div class="hr">
+      <div class="hl" id="hdr-leader"></div>
+      <div class="hs" id="hdr-sub">Bragging Rights &middot; Final 19 Jul</div>
+    </div>
+  </div>
+</header>
+<div class="lb-strip"><div class="lb-inner" id="leaderboard"></div></div>
+<div style="background:linear-gradient(135deg,#d45a1a,#f26921,#d45a1a);">
+  <div style="max-width:1100px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;">
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:#434c63;line-height:1;">NZD $200</span>
+      <span style="font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(67,76,99,.55);">Prize</span>
+    </div>
+    <div style="width:1px;height:32px;background:rgba(67,76,99,.18);"></div>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:#434c63;line-height:1;">Branch Catch-Up</span>
+      <span style="font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(67,76,99,.55);">Food &amp; Drinks on FMANZ</span>
+    </div>
+    <div style="width:1px;height:32px;background:rgba(67,76,99,.18);"></div>
+    <span style="font-size:10px;font-weight:800;background:#434c63;color:white;padding:3px 10px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;">&#127867; Winner Takes All</span>
+  </div>
+</div>
+<div class="lu" id="last-updated">Last updated: not yet synced</div>
+<div class="tab-bar"><div class="tab-inner" id="tabs"></div></div>
+<main id="main"></main>
+
+<div class="ov" id="branch-ov">
+  <div class="modal">
+    <div class="mh"><div class="mt" id="bm-title">Branch</div><button class="mc" onclick="closeBranch()">&#10005;</button></div>
+    <div class="mb" id="bm-body"></div>
+  </div>
+</div>
+
+<div class="ov" id="add-ov">
+  <div class="amod">
+    <h2>Add Knockout Match</h2>
+    <div class="fr">
+      <div class="ff"><label class="fl2">Home Team</label><input class="fi" id="f-home" placeholder="e.g. France"/></div>
+      <div class="ff"><label class="fl2">Away Team</label><input class="fi" id="f-away" placeholder="e.g. Brazil"/></div>
+    </div>
+    <div class="fr">
+      <div class="ff"><label class="fl2">Round</label>
+        <select class="fsl" id="f-round">
+          <option>Round of 32</option><option>Round of 16</option>
+          <option>Quarter-Final</option><option>Semi-Final</option>
+          <option>Third Place</option><option>Final</option>
+        </select>
+      </div>
+      <div class="ff"><label class="fl2">Date</label><input class="fi" id="f-date" placeholder="e.g. 5 Jul"/></div>
+    </div>
+    <div class="ma"><button class="bs" onclick="closeAdd()">Cancel</button><button class="bp" onclick="saveAdd()">Add Match</button></div>
+  </div>
+</div>
+
+<script>
+const LAST_SYNCED = 'Fri 12 Jun — Mexico 2–0 South Africa ✅ FT';
+
+const BRANCHES = ['Auckland','Manawatu','Wellington','Canterbury','Otago','Waikato'];
+const BMETA = {
+  'Auckland':   {icon:'🏙️',colour:'#0078b8',bg:'#e5f3fb'},
+  'Manawatu':   {icon:'🌾',colour:'#f26921',bg:'#fff5ef'},
+  'Wellington': {icon:'💨',colour:'#5f3dc4',bg:'#e5dbff'},
+  'Canterbury': {icon:'⛰️',colour:'#9c2044',bg:'#ffd6e7'},
+  'Otago':      {icon:'🏔️',colour:'#7c5a00',bg:'#fff3bf'},
+  'Waikato':    {icon:'🌿',colour:'#00ab8f',bg:'#d3f9d8'},
+};
+
+const ASSIGNMENTS = {
+  'Auckland':   ['Netherlands','Brazil','Croatia','Morocco','Austria','Ecuador','Paraguay','Saudi Arabia'],
+  'Manawatu':   ['Germany','Spain','Uruguay','Switzerland','Sweden','Turkiye','Haiti','Czechia'],
+  'Wellington': ['England','Belgium','Australia','Serbia','Norway','Tunisia','New Zealand','Qatar'],
+  'Canterbury': ['France','Senegal','Japan','South Africa','Scotland','Uzbekistan','Cabo Verde','Iran'],
+  'Otago':      ['Argentina','South Korea','Colombia','Canada','Egypt','Iraq','Jordan','Bosnia-Herzegovina'],
+  'Waikato':    ['Portugal','USA','Mexico','Ghana',"Cote d'Ivoire",'Algeria','Curacao','Congo DR'],
+};
+
+const FLAGS={
+  'Mexico':'🇲🇽','South Africa':'🇿🇦','South Korea':'🇰🇷','Czechia':'🇨🇿',
+  'Canada':'🇨🇦','Bosnia-Herzegovina':'🇧🇦','Switzerland':'🇨🇭','Qatar':'🇶🇦',
+  'Brazil':'🇧🇷','Morocco':'🇲🇦','Scotland':'🏴󠁧󠁢󠁳󠁣󠁴󠁿','Haiti':'🇭🇹',
+  'USA':'🇺🇸','Australia':'🇦🇺','Paraguay':'🇵🇾','Turkiye':'🇹🇷',
+  'Germany':'🇩🇪','Ecuador':'🇪🇨',"Cote d'Ivoire":'🇨🇮','Curacao':'🇨🇼',
+  'Netherlands':'🇳🇱','Japan':'🇯🇵','Tunisia':'🇹🇳','Sweden':'🇸🇪',
+  'Belgium':'🇧🇪','Iran':'🇮🇷','Egypt':'🇪🇬','New Zealand':'🇳🇿',
+  'Spain':'🇪🇸','Uruguay':'🇺🇾','Saudi Arabia':'🇸🇦','Cabo Verde':'🇨🇻',
+  'France':'🇫🇷','Senegal':'🇸🇳','Norway':'🇳🇴','Iraq':'🇮🇶',
+  'Argentina':'🇦🇷','Austria':'🇦🇹','Algeria':'🇩🇿','Jordan':'🇯🇴',
+  'Portugal':'🇵🇹','Colombia':'🇨🇴','Uzbekistan':'🇺🇿','Congo DR':'🇨🇩',
+  'England':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Croatia':'🇭🇷','Panama':'🇵🇦','Ghana':'🇬🇭','Serbia':'🇷🇸',
+};
+function fl(n){return FLAGS[n]||'🏳️';}
+
+const GRPS={
+  'Mexico':'A','South Africa':'A','South Korea':'A','Czechia':'A',
+  'Canada':'B','Bosnia-Herzegovina':'B','Switzerland':'B','Qatar':'B',
+  'Brazil':'C','Morocco':'C','Scotland':'C','Haiti':'C','Serbia':'C',
+  'USA':'D','Australia':'D','Paraguay':'D','Turkiye':'D',
+  'Germany':'E','Ecuador':'E',"Cote d'Ivoire":'E','Curacao':'E',
+  'Netherlands':'F','Japan':'F','Tunisia':'F','Sweden':'F',
+  'Belgium':'G','Iran':'G','Egypt':'G','New Zealand':'G',
+  'Spain':'H','Uruguay':'H','Saudi Arabia':'H','Cabo Verde':'H',
+  'France':'I','Senegal':'I','Norway':'I','Iraq':'I',
+  'Argentina':'J','Austria':'J','Algeria':'J','Jordan':'J',
+  'Portugal':'K','Colombia':'K','Uzbekistan':'K','Congo DR':'K',
+  'England':'L','Croatia':'L','Panama':'L','Ghana':'L',
+};
+
+const SP={group:0,r32:3,r16:6,qf:10,sf:15,third:18,final:22,winner:30};
+const SL={group:'Group Stage',r32:'Round of 32',r16:'Round of 16',qf:'Quarter-Final',sf:'Semi-Final',third:'3rd Place',final:'Runner-Up',winner:'Champion'};
+const SC={group:'sb-gs',r32:'sb-r32',r16:'sb-r16',qf:'sb-qf',sf:'sb-sf',third:'sb-3rd',final:'sb-fin',winner:'sb-win'};
+
+const ALL_TEAMS=Object.values(ASSIGNMENTS).flat();
+let tStage={};let tElim={};
+ALL_TEAMS.forEach(t=>{tStage[t]='group';tElim[t]=false;});
+
+let mid=1;
+function mkM(h,a,r,g,d,v){return{id:mid++,home:h,away:a,round:r,group:g||'',date:d||'',venue:v||'',status:'upcoming',homeScore:0,awayScore:0};}
+let matches=[
+  mkM('Mexico','South Africa','Group Stage','A','11 Jun','Mexico City'),
+  Object.assign(mkM('South Korea','Czechia','Group Stage','A','Fri 12 Jun 14:00 NZT','Guadalajara'),{status:'upcoming'}),
+  mkM('Mexico','South Korea','Group Stage','A','17 Jun','Mexico City'),
+  mkM('Czechia','South Africa','Group Stage','A','17 Jun','Monterrey'),
+  mkM('South Africa','South Korea','Group Stage','A','22 Jun','Guadalajara'),
+  mkM('Mexico','Czechia','Group Stage','A','22 Jun','Mexico City'),
+  Object.assign(mkM('Canada','Bosnia-Herzegovina','Group Stage','B','Sat 13 Jun 07:00 NZT','Toronto'),{status:'upcoming'}),
+  mkM('Switzerland','Qatar','Group Stage','B','13 Jun','Vancouver'),
+  mkM('Canada','Switzerland','Group Stage','B','18 Jun','Toronto'),
+  mkM('Qatar','Bosnia-Herzegovina','Group Stage','B','18 Jun','Vancouver'),
+  mkM('Bosnia-Herzegovina','Switzerland','Group Stage','B','23 Jun','Vancouver'),
+  mkM('Canada','Qatar','Group Stage','B','23 Jun','Toronto'),
+  mkM('Brazil','Morocco','Group Stage','C','13 Jun','San Francisco'),
+  mkM('Scotland','Haiti','Group Stage','C','13 Jun','Miami'),
+  mkM('Brazil','Scotland','Group Stage','C','18 Jun','San Francisco'),
+  mkM('Morocco','Haiti','Group Stage','C','18 Jun','Dallas'),
+  mkM('Haiti','Brazil','Group Stage','C','23 Jun','Miami'),
+  mkM('Morocco','Scotland','Group Stage','C','23 Jun','Dallas'),
+  Object.assign(mkM('USA','Paraguay','Group Stage','D','Sat 13 Jun 13:00 NZT','Los Angeles'),{status:'upcoming'}),
+  mkM('Australia','Turkiye','Group Stage','D','13 Jun','New York'),
+  mkM('USA','Australia','Group Stage','D','19 Jun','Los Angeles'),
+  mkM('Turkiye','Paraguay','Group Stage','D','19 Jun','Kansas City'),
+  mkM('Paraguay','Australia','Group Stage','D','24 Jun','Dallas'),
+  mkM('USA','Turkiye','Group Stage','D','24 Jun','Los Angeles'),
+  mkM('Germany','Curacao','Group Stage','E','14 Jun','Houston'),
+  mkM("Cote d'Ivoire",'Ecuador','Group Stage','E','14 Jun','Philadelphia'),
+  mkM('Germany',"Cote d'Ivoire",'Group Stage','E','19 Jun','Houston'),
+  mkM('Ecuador','Curacao','Group Stage','E','19 Jun','Boston'),
+  mkM('Curacao',"Cote d'Ivoire",'Group Stage','E','24 Jun','Philadelphia'),
+  mkM('Germany','Ecuador','Group Stage','E','24 Jun','Houston'),
+  mkM('Netherlands','Japan','Group Stage','F','14 Jun','Dallas'),
+  mkM('Sweden','Tunisia','Group Stage','F','14 Jun','Monterrey'),
+  mkM('Netherlands','Sweden','Group Stage','F','19 Jun','Dallas'),
+  mkM('Japan','Tunisia','Group Stage','F','19 Jun','Monterrey'),
+  mkM('Tunisia','Netherlands','Group Stage','F','24 Jun','Kansas City'),
+  mkM('Japan','Sweden','Group Stage','F','24 Jun','Seattle'),
+  mkM('Belgium','Egypt','Group Stage','G','15 Jun','Seattle'),
+  mkM('Iran','New Zealand','Group Stage','G','15 Jun','Los Angeles'),
+  mkM('Belgium','Iran','Group Stage','G','20 Jun','Seattle'),
+  mkM('New Zealand','Egypt','Group Stage','G','20 Jun','San Francisco'),
+  mkM('Egypt','Iran','Group Stage','G','25 Jun','Miami'),
+  mkM('New Zealand','Belgium','Group Stage','G','25 Jun','Los Angeles'),
+  mkM('Spain','Cabo Verde','Group Stage','H','15 Jun','Atlanta'),
+  mkM('Saudi Arabia','Uruguay','Group Stage','H','15 Jun','Miami'),
+  mkM('Spain','Saudi Arabia','Group Stage','H','20 Jun','Atlanta'),
+  mkM('Uruguay','Cabo Verde','Group Stage','H','20 Jun','New York'),
+  mkM('Cabo Verde','Saudi Arabia','Group Stage','H','25 Jun','Dallas'),
+  mkM('Uruguay','Spain','Group Stage','H','25 Jun','New York'),
+  mkM('France','Senegal','Group Stage','I','16 Jun','New York'),
+  mkM('Norway','Iraq','Group Stage','I','16 Jun','Boston'),
+  mkM('France','Norway','Group Stage','I','21 Jun','New York'),
+  mkM('Iraq','Senegal','Group Stage','I','21 Jun','Boston'),
+  mkM('Senegal','Norway','Group Stage','I','26 Jun','Philadelphia'),
+  mkM('Iraq','France','Group Stage','I','26 Jun','Kansas City'),
+  mkM('Argentina','Algeria','Group Stage','J','16 Jun','Kansas City'),
+  mkM('Austria','Jordan','Group Stage','J','16 Jun','San Francisco'),
+  mkM('Argentina','Austria','Group Stage','J','21 Jun','Kansas City'),
+  mkM('Jordan','Algeria','Group Stage','J','21 Jun','Houston'),
+  mkM('Algeria','Austria','Group Stage','J','26 Jun','Los Angeles'),
+  mkM('Jordan','Argentina','Group Stage','J','26 Jun','Miami'),
+  mkM('Portugal','Uzbekistan','Group Stage','K','17 Jun','Boston'),
+  mkM('Colombia','Congo DR','Group Stage','K','17 Jun','Atlanta'),
+  mkM('Portugal','Colombia','Group Stage','K','22 Jun','Boston'),
+  mkM('Congo DR','Uzbekistan','Group Stage','K','22 Jun','Philadelphia'),
+  mkM('Uzbekistan','Colombia','Group Stage','K','27 Jun','Kansas City'),
+  mkM('Congo DR','Portugal','Group Stage','K','27 Jun','Atlanta'),
+  mkM('England','Panama','Group Stage','L','17 Jun','San Francisco'),
+  mkM('Croatia','Ghana','Group Stage','L','17 Jun','Houston'),
+  mkM('England','Croatia','Group Stage','L','22 Jun','San Francisco'),
+  mkM('Ghana','Panama','Group Stage','L','22 Jun','Seattle'),
+  mkM('Panama','Croatia','Group Stage','L','27 Jun','Los Angeles'),
+  mkM('Ghana','England','Group Stage','L','27 Jun','Dallas'),
+];
+Object.assign(matches[0],{status:'final',homeScore:2,awayScore:0});
+
+let curTab='Results';
+let activeBranch=null;
+
+function calcPts(){
+  const pts={};
+  BRANCHES.forEach(b=>{
+    pts[b]=ASSIGNMENTS[b].reduce((s,t)=>s+(tElim[t]?0:(SP[tStage[t]]||0)),0);
+  });
+  return pts;
+}
+
+function ownerOf(t){return BRANCHES.find(b=>(ASSIGNMENTS[b]||[]).includes(t));}
+
+function render(){
+  renderLB();renderTabs();renderMain();
+  document.getElementById('last-updated').textContent='Last updated: '+LAST_SYNCED;
+}
+
+function renderLB(){
+  const pts=calcPts();
+  const sorted=[...BRANCHES].sort((a,b)=>pts[b]-pts[a]);
+  const top=pts[sorted[0]];
+  const le=document.getElementById('hdr-leader');
+  const se=document.getElementById('hdr-sub');
+  if(top===0){le.textContent='Good luck all branches!';se.textContent='Bragging Rights \u00b7 Final 19 Jul';}
+  else{le.textContent=sorted[0]+' leads';se.textContent=top+' pts \u00b7 Bragging Rights';}
+  document.getElementById('leaderboard').innerHTML=sorted.map((b,i)=>{
+    const m=BMETA[b];
+    return `<div class="lb-p ${top>0&&i===0?'top':''}" onclick="setTab('Branches')">
+      <span class="lb-rank">#${i+1}</span>
+      <span class="lb-name">${m.icon} ${b}</span>
+      <span class="lb-pts">${pts[b]}</span>
+      <span class="lb-t">${ASSIGNMENTS[b].slice(0,3).map(t=>t.split(' ')[0]).join(', ')}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderTabs(){
+  const live=matches.filter(m=>m.status==='live').length;
+  document.getElementById('tabs').innerHTML=['Branches','Your Matches','Results','Fixtures','Rules'].map(t=>`
+    <div class="tab ${curTab===t?'active':''}" onclick="setTab('${t}')">
+      ${t}${t==='Results'&&live>0?'<span class="ld"></span>':''}
+    </div>`).join('');
+}
+
+function setTab(t){curTab=t;render();}
+
+function renderMain(){
+  const el=document.getElementById('main');
+  if(curTab==='Branches') el.innerHTML=branchesHTML();
+  else if(curTab==='Your Matches') el.innerHTML=yourMatchesHTML();
+  else if(curTab==='Results') el.innerHTML=resultsHTML();
+  else if(curTab==='Fixtures') el.innerHTML=fixturesHTML();
+  else el.innerHTML=rulesHTML();
+}
+
+function branchesHTML(){
+  const pts=calcPts();
+  const sorted=[...BRANCHES].sort((a,b)=>pts[b]-pts[a]);
+  const top=pts[sorted[0]];
+  return `<div class="bg">${sorted.map(b=>{
+    const m=BMETA[b];const bp=pts[b];const lead=top>0&&bp===top;
+    return `<div class="bc ${lead?'leader':''}" onclick="openBranch('${b}')">
+      <div class="bc-h">
+        <div class="bc-l">
+          <div class="bc-ic" style="background:${m.bg};color:${m.colour};">${m.icon}</div>
+          <div><div class="bc-nm">${b}</div><div class="bc-rg">${ASSIGNMENTS[b].length} teams &middot; click to manage</div></div>
+        </div>
+        <div class="bc-pts"><div class="bc-pn">${bp}</div><div class="bc-pl">points</div></div>
+      </div>
+      <div class="bc-div"></div>
+      <div class="bc-teams">${ASSIGNMENTS[b].map(t=>{
+        const e=tElim[t];const s=tStage[t];
+        let c='tc';if(e)c+=' elim';else if(s==='winner')c+=' champ';else if(s!=='group')c+=' active';
+        return `<span class="${c}">${fl(t)} ${t}</span>`;
+      }).join('')}</div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function openBranch(b){
+  activeBranch=b;
+  const m=BMETA[b];
+  document.getElementById('bm-title').innerHTML=`${m.icon} ${b}`;
+  document.getElementById('bm-body').innerHTML=ASSIGNMENTS[b].map(name=>{
+    const e=tElim[name];const s=e?'out':tStage[name];
+    const p=e?0:(SP[tStage[name]]||0);
+    const css=SC[tStage[name]]||'sb-gs';
+    const lbl=e?'Eliminated':(SL[tStage[name]]||'Group Stage');
+    return `<div class="tdr">
+      <div class="tdl">
+        <span class="tdf">${fl(name)}</span>
+        <div><div class="tdn">${name}</div><div class="tdg">Group ${GRPS[name]||'?'} &middot; ${p} pts</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="sb ${e?'sb-out':css}">${lbl}</span>
+        <select class="ss" onchange="setStage('${name}',this.value)">
+          <option value="group" ${!e&&s==='group'?'selected':''}>Group Stage</option>
+          <option value="r32"   ${!e&&s==='r32'  ?'selected':''}>Round of 32 (+3)</option>
+          <option value="r16"   ${!e&&s==='r16'  ?'selected':''}>Round of 16 (+6)</option>
+          <option value="qf"    ${!e&&s==='qf'   ?'selected':''}>QF (+10)</option>
+          <option value="sf"    ${!e&&s==='sf'   ?'selected':''}>SF (+15)</option>
+          <option value="third" ${!e&&s==='third'?'selected':''}>3rd (+18)</option>
+          <option value="final" ${!e&&s==='final'?'selected':''}>Runner-Up (+22)</option>
+          <option value="winner"${s==='winner'   ?'selected':''}>&#127942; Champion (+30)</option>
+          <option value="elim"  ${e              ?'selected':''}>&#10060; Eliminated</option>
+        </select>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('branch-ov').classList.add('open');
+}
+
+function closeBranch(){document.getElementById('branch-ov').classList.remove('open');activeBranch=null;render();}
+
+function setStage(name,val){
+  if(val==='elim'){tElim[name]=true;tStage[name]='group';}
+  else{tElim[name]=false;tStage[name]=val;}
+  if(val==='winner') confetti();
+  if(activeBranch) openBranch(activeBranch);
+  render();
+}
+
+function resultsHTML(){
+  const ro=['Group Stage','Round of 32','Round of 16','Quarter-Final','Semi-Final','Third Place','Final'];
+  const byR={};matches.forEach(m=>{if(!byR[m.round])byR[m.round]=[];byR[m.round].push(m);});
+  const so={live:0,upcoming:1,final:2};
+  return `
+  <div style="background:#fff5ef;border:1.5px solid var(--orange);border-radius:10px;padding:12px 16px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px;">
+    <span style="font-size:20px;">&#9889;</span>
+    <div>
+      <div style="font-size:13px;font-weight:700;color:var(--orange);margin-bottom:3px;">Why is everyone on 0 points?</div>
+      <div style="font-size:12px;color:var(--text);line-height:1.6;">Points only start from the <strong>Round of 32 (29 June)</strong> when the knockouts begin. The group stage is just teams qualifying &mdash; think of it like a regular season. From 29 June one loss = you're out, and that's when the leaderboard comes alive! See the <strong>Rules tab</strong> for full details.</div>
+    </div>
+  </div>
+  `+Object.keys(byR).sort((a,b)=>ro.indexOf(a)-ro.indexOf(b)).map(r=>`
+    <div class="rs">
+      <div class="rh"><span class="rt">${r}</span><span class="rm">${byR[r].length} matches</span></div>
+      ${byR[r].sort((a,b)=>so[a.status]-so[b.status]).map(m=>mrHTML(m)).join('')}
+    </div>`).join('')+`<button class="add-btn" onclick="openAdd()">+ Add knockout match</button>`;
+}
+
+function mrHTML(m){
+  const ho=ownerOf(m.home);const ao=ownerOf(m.away);
+  const sc=m.status==='live'?'st-l':m.status==='final'?'st-f':'st-u';
+  const sl=m.status==='live'?'&#128308; Live':m.status==='final'?'&#9989; Final':'Upcoming';
+  return `<div class="mr ${m.status==='live'?'live':''}">
+    <div class="mt2 home"><span class="mfl">${fl(m.home)}</span><div><div class="mn">${m.home}</div>${ho?`<div class="mo">${ho}</div>`:''}</div></div>
+    <div class="msc">
+      <div class="mct"><button class="mb2 inc" onclick="adjM(${m.id},'home',1)">+</button><span class="msn">${m.homeScore}</span><button class="mb2 dec" onclick="adjM(${m.id},'home',-1)">&#8722;</button></div>
+      <span class="msp">&ndash;</span>
+      <div class="mct"><button class="mb2 inc" onclick="adjM(${m.id},'away',1)">+</button><span class="msn">${m.awayScore}</span><button class="mb2 dec" onclick="adjM(${m.id},'away',-1)">&#8722;</button></div>
+    </div>
+    <div class="mt2 away"><span class="mfl">${fl(m.away)}</span><div><div class="mn">${m.away}</div>${ao?`<div class="mo">${ao}</div>`:''}</div></div>
+    <div class="mme"><span class="mst ${sc}" onclick="cycleStatus(${m.id})">${sl}</span><span class="mdt">${m.date}${m.group?' &middot; Grp '+m.group:''}</span></div>
+  </div>`;
+}
+
+function adjM(id,side,d){
+  const m=matches.find(x=>x.id===id);if(!m)return;
+  if(side==='home')m.homeScore=Math.max(0,m.homeScore+d);else m.awayScore=Math.max(0,m.awayScore+d);
+  render();
+}
+function cycleStatus(id){
+  const m=matches.find(x=>x.id===id);if(!m)return;
+  const o=['upcoming','live','final'];m.status=o[(o.indexOf(m.status)+1)%3];render();
+}
+
+function fixturesHTML(){
+  const gd={};
+  matches.filter(m=>m.round==='Group Stage').forEach(m=>{if(!gd[m.group])gd[m.group]=[];gd[m.group].push(m);});
+  return Object.keys(gd).sort().map(g=>`
+    <div class="rs">
+      <div class="rh"><span class="rt">Group ${g}</span><span class="rm">${gd[g].length} matches</span></div>
+      ${gd[g].map(m=>`
+        <div class="mr" style="opacity:${m.status==='final'?.65:1}">
+          <div class="mt2 home"><span class="mfl">${fl(m.home)}</span><span class="mn">${m.home}</span></div>
+          <div class="msc"><span class="msn">${m.status==='upcoming'?'&ndash;':m.homeScore}</span><span class="msp">&ndash;</span><span class="msn">${m.status==='upcoming'?'&ndash;':m.awayScore}</span></div>
+          <div class="mt2 away"><span class="mfl">${fl(m.away)}</span><span class="mn">${m.away}</span></div>
+          <div class="mme"><span class="mst ${m.status==='live'?'st-l':m.status==='final'?'st-f':'st-u'}">${m.status==='live'?'&#128308;':m.status==='final'?'&#9989;':m.date}</span><span class="mdt">${m.venue}</span></div>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function rulesHTML(){
+  return `<div class="rw">
+    <div style="background:var(--db);border-radius:14px;padding:28px;margin-bottom:16px;text-align:center;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;">FMANZ &middot; World Cup 2026</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:40px;color:white;line-height:1;letter-spacing:1px;">BRANCH <span style="color:var(--orange);">CHALLENGE</span></div>
+      <div style="color:rgba(255,255,255,.6);font-size:14px;margin-top:10px;line-height:1.7;">6 branches &middot; 8 teams each &middot; 48 teams total<br><strong style="color:var(--orange);">NZD $200 for the winning branch to spend at their catch-up!</strong> &#127867;</div>
+    </div>
+    <div class="rc">
+      <div class="rct">&#9917; How It Works</div>
+      <div class="step"><div class="sn">1</div><div><strong>Teams are assigned</strong> &mdash; All 48 World Cup teams were randomly distributed across the 6 FMANZ branches &mdash; 8 teams per branch, every team belongs to exactly one branch. The draw was tier-balanced so every branch has a fair mix of strong and weaker teams.</div></div>
+      <div class="step"><div class="sn">2</div><div><strong>Cheer your teams</strong> &mdash; Each branch earns points as their teams progress through the tournament rounds.</div></div>
+      <div class="step"><div class="sn">3</div><div><strong>Leaderboard updates live</strong> &mdash; Points are tracked automatically as results come in throughout the tournament.</div></div>
+      <div class="step"><div class="sn">4</div><div><strong>Bragging rights</strong> &mdash; The branch with the most points when the final whistle blows on <strong>19 July 2026</strong> wins <strong>NZD $200 to spend at their branch catch-up</strong> on food and drinks! &#127867; &#127942;</div></div>
+    </div>
+    <div class="rc">
+      <div class="rct">&#127885; Points Per Round</div>
+      <div class="pg">
+        <div class="pr"><span class="pl">Round of 32</span><span class="pv">3 pts</span></div>
+        <div class="pr"><span class="pl">Round of 16</span><span class="pv">6 pts</span></div>
+        <div class="pr"><span class="pl">Quarter-Final</span><span class="pv">10 pts</span></div>
+        <div class="pr"><span class="pl">Semi-Final</span><span class="pv">15 pts</span></div>
+        <div class="pr"><span class="pl">3rd Place</span><span class="pv">18 pts</span></div>
+        <div class="pr"><span class="pl">Runner-Up</span><span class="pv">22 pts</span></div>
+        <div class="pr gold" style="grid-column:span 2"><span class="pl">&#127942; Champion</span><span class="pv">30 pts</span></div>
+        <div class="pr" style="grid-column:span 2;opacity:.6"><span class="pl">Group Stage</span><span class="pv">0 pts</span></div>
+      </div>
+    </div>
+    <div class="rc">
+      <div class="rct">&#127922; Branch Assignments</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:14px;">All 48 World Cup teams distributed across 6 branches &mdash; exactly 8 per branch. Every team belongs to exactly one branch, no repeats, no favourites.</div>
+      ${BRANCHES.map(b=>{
+        const m=BMETA[b];
+        return `<div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--offwhite);">
+          <div style="width:34px;height:34px;border-radius:8px;background:${m.bg};color:${m.colour};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">${m.icon}</div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--db);margin-bottom:5px;">${b} <span style="font-size:11px;font-weight:600;color:var(--muted);">(${ASSIGNMENTS[b].length} teams)</span></div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;">${ASSIGNMENTS[b].map(t=>`<span style="font-size:11px;font-weight:600;padding:2px 8px;background:${m.bg};color:${m.colour};border-radius:12px;">${fl(t)} ${t}</span>`).join('')}</div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+}
+
+function openAdd(){document.getElementById('add-ov').classList.add('open');}
+function closeAdd(){document.getElementById('add-ov').classList.remove('open');}
+function saveAdd(){
+  const h=document.getElementById('f-home').value.trim();
+  const a=document.getElementById('f-away').value.trim();
+  if(!h||!a){alert('Enter both teams');return;}
+  matches.push(mkM(h,a,document.getElementById('f-round').value,'',document.getElementById('f-date').value.trim(),''));
+  closeAdd();render();
+}
+document.getElementById('branch-ov').addEventListener('click',e=>{if(e.target===document.getElementById('branch-ov'))closeBranch();});
+document.getElementById('add-ov').addEventListener('click',e=>{if(e.target===document.getElementById('add-ov'))closeAdd();});
+
+function confetti(){
+  const cols=['#f26921','#434c63','#0078b8','#00ab8f','#e72e2f','#ffffff'];
+  for(let i=0;i<70;i++){
+    const el=document.createElement('div');el.className='cp';
+    el.style.cssText=`left:${Math.random()*100}vw;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${1.2+Math.random()*2}s;animation-delay:${Math.random()*.6}s;width:${5+Math.random()*8}px;height:${5+Math.random()*8}px;`;
+    document.body.appendChild(el);setTimeout(()=>el.remove(),3500);
+  }
+}
+
+// ── YOUR MATCHES TAB ──
+// Only fixtures relevant to the 6 branches, with NZT times
+const BRANCH_FIXTURES = [
+  {
+    date:'Friday 12 June (NZT)',
+    matches:[
+      {home:'Mexico',away:'South Africa',time:'FT',branches:['Auckland','Auckland']},
+      {home:'South Korea',away:'Czechia',time:'14:00',branches:['Otago','Canterbury']},
+    ]
+  },
+  {
+    date:'Saturday 13 June (NZT)',
+    matches:[
+      {home:'Canada',away:'Bosnia-Herzegovina',time:'07:00',branches:['Manawatu','Otago']},
+      {home:'Haiti',away:'Scotland',time:'09:00',branches:['Manawatu','Wellington']},
+      {home:'Australia',away:'Turkiye',time:'10:00',branches:['Canterbury','Manawatu']},
+      {home:'USA',away:'Paraguay',time:'13:00',branches:['Waikato','Wellington']},
+      {home:'Brazil',away:'Morocco',time:'13:00',branches:['Auckland','Auckland']},
+      {home:'Qatar',away:'Switzerland',time:'16:00',branches:['Waikato','Manawatu']},
+    ]
+  },
+  {
+    date:'Sunday 14 June (NZT)',
+    matches:[
+      {home:"Cote d'Ivoire",away:'Ecuador',time:'05:00',branches:['Otago','Canterbury']},
+      {home:'Germany',away:'Curacao',time:'05:00',branches:['Manawatu','Wellington']},
+      {home:'Netherlands',away:'Japan',time:'08:00',branches:['Auckland','Waikato']},
+      {home:'Sweden',away:'Tunisia',time:'08:00',branches:['Manawatu','Manawatu']},
+    ]
+  },
+  {
+    date:'Monday 15 June (NZT)',
+    matches:[
+      {home:'Belgium',away:'Egypt',time:'06:00',branches:['Wellington','Auckland']},
+      {home:'Spain',away:'Cabo Verde',time:'06:00',branches:['Manawatu','Otago']},
+      {home:'Saudi Arabia',away:'Uruguay',time:'09:00',branches:['Otago','Waikato']},
+      {home:'Iran',away:'New Zealand',time:'09:00',branches:['Waikato','Wellington']},
+    ]
+  },
+  {
+    date:'Tuesday 16 June (NZT)',
+    matches:[
+      {home:'France',away:'Senegal',time:'07:00',branches:['Canterbury','Otago']},
+      {home:'Iraq',away:'Norway',time:'07:00',branches:['Waikato','Wellington']},
+      {home:'Argentina',away:'Algeria',time:'13:00',branches:['Otago','Auckland']},
+      {home:'Austria',away:'Jordan',time:'10:00',branches:['Wellington','Otago']},
+    ]
+  },
+  {
+    date:'Wednesday 17 June (NZT)',
+    matches:[
+      {home:'England',away:'Croatia',time:'08:00',branches:['Wellington','Waikato']},
+      {home:'Portugal',away:'Congo DR',time:'05:00',branches:['Waikato','Otago']},
+      {home:'Uzbekistan',away:'Colombia',time:'05:00',branches:['Auckland','Auckland']},
+    ]
+  },
+];
+
+function yourMatchesHTML(){
+  const pts = calcPts();
+  return `
+    <div style="max-width:720px;margin:0 auto;">
+      <div style="background:var(--db);border-radius:12px;padding:18px 22px;margin-bottom:16px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:white;letter-spacing:1px;">Your <span style="color:var(--orange);">Matches</span></div>
+        <div style="font-size:13px;color:rgba(255,255,255,.55);margin-top:4px;">Only fixtures involving your 6 branch teams &middot; All times NZT</div>
+      </div>
+      ${BRANCH_FIXTURES.map(day=>`
+        <div class="rs">
+          <div class="rh">
+            <span class="rt">${day.date}</span>
+            <span class="rm">${day.matches.length} matches</span>
+          </div>
+          ${day.matches.map(m=>{
+            // get unique branches for this match
+            const bs = [...new Set(m.branches.filter(Boolean))];
+            const homeOwner = ownerOf(m.home);
+            const awayOwner = ownerOf(m.away);
+            // find actual match in matches array for score
+            const lm = matches.find(x=>x.home===m.home && x.away===m.away);
+            const score = lm ? (lm.status==='upcoming' ? m.time : `${lm.homeScore}–${lm.awayScore}`) : m.time;
+            const stCss = lm ? (lm.status==='live'?'st-l':lm.status==='final'?'st-f':'st-u') : 'st-u';
+            const stLbl = lm ? (lm.status==='live'?'&#128308; Live':lm.status==='final'?'&#9989; Final':m.time) : m.time;
+            return `
+              <div class="mr ${lm&&lm.status==='live'?'live':''}">
+                <div class="mt2 home">
+                  <span class="mfl">${fl(m.home)}</span>
+                  <div>
+                    <div class="mn">${m.home}</div>
+                    ${homeOwner?`<div class="mo">${homeOwner}</div>`:''}
+                  </div>
+                </div>
+                <div class="msc">
+                  <div class="mct">
+                    <span class="msn" style="font-size:${lm&&lm.status!=='upcoming'?'26px':'16px'};color:var(--db);">
+                      ${lm&&lm.status!=='upcoming'?lm.homeScore:'&ndash;'}
+                    </span>
+                  </div>
+                  <span class="msp">&ndash;</span>
+                  <div class="mct">
+                    <span class="msn" style="font-size:${lm&&lm.status!=='upcoming'?'26px':'16px'};color:var(--db);">
+                      ${lm&&lm.status!=='upcoming'?lm.awayScore:'&ndash;'}
+                    </span>
+                  </div>
+                </div>
+                <div class="mt2 away">
+                  <span class="mfl">${fl(m.away)}</span>
+                  <div>
+                    <div class="mn">${m.away}</div>
+                    ${awayOwner?`<div class="mo">${awayOwner}</div>`:''}
+                  </div>
+                </div>
+                <div class="mme">
+                  <span class="mst ${stCss}">${stLbl}</span>
+                  <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;margin-top:3px;">
+                    ${bs.map(b=>{
+                      const meta=BMETA[b];
+                      return meta?`<span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px;background:${meta.bg};color:${meta.colour};">${meta.icon} ${b}</span>`:'';
+                    }).join('')}
+                  </div>
+                </div>
+              </div>`;
+          }).join('')}
+        </div>`).join('')}
+      <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-top:8px;text-align:center;font-size:12px;color:var(--muted);">
+        More fixtures will be added as the group stage progresses &middot; Check back daily!
+      </div>
+    </div>`;
+}
+
+
+render();
+</script>
+</body>
+</html>
